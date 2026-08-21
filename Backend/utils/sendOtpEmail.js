@@ -1,14 +1,29 @@
-const { Resend } = require("resend");
-
-const resend = new Resend(process.env.RESEND_API_KEY);
-
 const sendOtpEmail = async (email, otp) => {
-  await resend.emails.send({
-    from: "Foodiesam <onboarding@resend.dev>",
-    to: email,
-    subject: "Bakery Email Verification",
-    text: `Your OTP is: ${otp}`,
+  const response = await fetch("https://api.brevo.com/v3/smtp/email", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      "api-key": process.env.BREVO_API_KEY,
+    },
+    body: JSON.stringify({
+      sender: {
+        name: "Foodiesam",
+        email: process.env.EMAIL_USER,
+      },
+      to: [
+        {
+          email: email,
+        },
+      ],
+      subject: "Bakery Email Verification",
+      textContent: `Your OTP is: ${otp}`,
+    }),
   });
+
+  if (!response.ok) {
+    const errorData = await response.text();
+    throw new Error(errorData);
+  }
 };
 
 module.exports = sendOtpEmail;
