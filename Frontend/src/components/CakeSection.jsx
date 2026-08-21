@@ -5,7 +5,7 @@ const CakeSection = () => {
   const [cakes, setCakes] = useState([]);
 
   useEffect(() => {
-    fetch("http://localhost:5000/api/cakes")
+    fetch("https://foodiesam-backend.onrender.com/api/cakes")
       .then((response) => response.json())
       .then((data) => {
         const featuredNames = [

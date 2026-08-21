@@ -18,7 +18,7 @@ function CakeDetails() {
   const { setCart } = useCart();
 
   useEffect(() => {
-    fetch(`http://localhost:5000/api/cakes/${id}`)
+    fetch(`https://foodiesam-backend.onrender.com/api/cakes/${id}`)
       .then((response) => response.json())
       .then((data) => {
         setCake(data);

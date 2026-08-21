@@ -31,7 +31,7 @@ function OtpVerify() {
      setSending(true);
 
      try{
-    const response = await fetch("http://localhost:5000/api/auth/send-otp", {
+    const response = await fetch("https://foodiesam-backend.onrender.com/api/auth/send-otp",{
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -55,16 +55,17 @@ function OtpVerify() {
   };
 
   const verifyOtp = async () => {
-    const response = await fetch("http://localhost:5000/api/auth/verify-otp", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
+    const response = await fetch("https://foodiesam-backend.onrender.com/api/auth/verify-otp",{
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          email: email,
+          otp: otp,
+        }),
       },
-      body: JSON.stringify({
-        email: email,
-        otp: otp,
-      }),
-    });
+    );
 
     const data = await response.json();
 
