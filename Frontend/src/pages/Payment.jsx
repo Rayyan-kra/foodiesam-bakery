@@ -26,7 +26,7 @@ const placeOrder = async () => {
   console.log("paymentMethod:", paymentMethod);
 
   const orderData = {
-    phone: checkoutData.phone,
+    phone: checkoutData.address.phone,
     items: cart,
     totalPrice: totalPrice,
     address: checkoutData.address,
