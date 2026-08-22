@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 
 const CakeSection = () => {
   const [cakes, setCakes] = useState([]);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     fetch("https://foodiesam-backend.onrender.com/api/cakes")
@@ -24,6 +25,8 @@ const CakeSection = () => {
         );
 
         setCakes(featured);
+      }).finally(() => {
+        setLoading(false);
       });
   }, []);
 
@@ -46,6 +49,43 @@ const CakeSection = () => {
       </div>
 
       {/* Product Cards */}
+
+      {loading && (
+        <div className="mx-auto mt-14 grid max-w-7xl gap-8 sm:grid-cols-2 lg:grid-cols-4">
+          {[1, 2, 3, 4, 5, 6, 7, 8].map((item) => (
+            <div
+              key={item}
+              className="overflow-hidden rounded-3xl border border-pink-100 bg-white shadow-sm"
+            >
+              {/* Fake Image */}
+              <div className="h-64 animate-pulse bg-pink-100"></div>
+
+              {/* Fake Details */}
+              <div className="p-6">
+                <div className="h-3 w-20 animate-pulse rounded bg-pink-100"></div>
+
+                <div className="mt-4 h-6 w-3/4 animate-pulse rounded bg-gray-200"></div>
+
+                <div className="mt-3 h-4 w-full animate-pulse rounded bg-gray-100"></div>
+
+                <div className="mt-2 h-4 w-2/3 animate-pulse rounded bg-gray-100"></div>
+
+                <div className="mt-8 flex items-end justify-between">
+                  <div>
+                    <div className="h-3 w-20 animate-pulse rounded bg-gray-100"></div>
+                    <div className="mt-2 h-7 w-16 animate-pulse rounded bg-pink-100"></div>
+                  </div>
+
+                  <div className="h-10 w-28 animate-pulse rounded-xl bg-pink-100"></div>
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
+      )}
+
+      {/* Your REAL Product Cards */}
+      {!loading && (
       <div className="mx-auto mt-14 grid max-w-7xl gap-8 sm:grid-cols-2 lg:grid-cols-4">
         {cakes.map((cake) => (
           <div
@@ -98,6 +138,7 @@ const CakeSection = () => {
           </div>
         ))}
       </div>
+      )}
 
       {/* View All */}
       <div className="mt-14 text-center">
