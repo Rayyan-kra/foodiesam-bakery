@@ -1,18 +1,8 @@
-const nodemailer = require("nodemailer");
-
 const sendOrderEmail = async (order) => {
-  const transporter = nodemailer.createTransport({
-    service: "gmail",
-    auth: {
-      user: process.env.EMAIL_USER,
-      pass: process.env.EMAIL_PASS,
-    },
-  });
-
   const itemsText = order.items
     .map((item) => {
       return `
-Cake: ${item.name}
+Product: ${item.name}
 Weight: ${item.weight} KG
 Quantity: ${item.quantity}
 Delivery Date: ${item.deliveryDate}
@@ -23,7 +13,7 @@ Price: ₹${item.price}
     .join("\n");
 
   const message = `
-New Bakery Order
+New Foodiesam Order
 
 Order ID: ${order._id}
 
@@ -46,14 +36,33 @@ Payment Status: ${order.paymentStatus || "Pending"}
 Order Status: ${order.status}
 `;
 
-const info = await transporter.sendMail({
-  from: `"Foodiesam" <${process.env.EMAIL_USER}>`,
-  to: process.env.FAMILY_EMAIL,
-  subject: `New Bakery Order - ${order._id}`,
-  text: message,
-});
+  const response = await fetch("https://api.brevo.com/v3/smtp/email", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      "api-key": process.env.BREVO_API_KEY,
+    },
+    body: JSON.stringify({
+      sender: {
+        name: "Foodiesam",
+        email: process.env.EMAIL_USER,
+      },
+      to: [
+        {
+          email: process.env.FAMILY_EMAIL,
+        },
+      ],
+      subject: `New Foodiesam Order - ${order._id}`,
+      textContent: message,
+    }),
+  });
 
-console.log("Email sent successfully:", info.response);
+  if (!response.ok) {
+    const errorData = await response.text();
+    throw new Error(errorData);
+  }
+
+  console.log("Order email sent successfully");
 };
 
 module.exports = sendOrderEmail;
