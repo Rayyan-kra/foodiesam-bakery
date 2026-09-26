@@ -8,6 +8,20 @@ The project is built using **React, Node.js, Express.js, and MongoDB** and is de
 
 https://foodiesam-bakery.vercel.app/
 
+## 📸 Screenshots
+
+### Home Page
+
+![FoodieSam Home Page](screenshots/homepage.png)
+
+### Products Page
+
+![FoodieSam Products Page](screenshots/products.png)
+
+### Checkout Page
+
+![FoodieSam Checkout Page](screenshots/checkout.png)
+
 ## ✨ Features
 
 - Browse bakery products and cakes
